@@ -76,7 +76,7 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 ---
 
 ### 4. Update Book Details
-**Endpoint:** `PUT /books/{bookId}`
+**Endpoint:** `PUT /books?bookId={bookId}`
 
 **Description:** Updates book details (title, author, genre, availability).
 
@@ -96,7 +96,7 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 ---
 
 ### 5. Delete a Book
-**Endpoint:** `DELETE /books/{bookId}`
+**Endpoint:** `DELETE /books?bookId={bookId}`
 
 **Description:** Deletes a book from the catalog.
 
@@ -107,7 +107,7 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 ---
 
 ### 6. Exit System
-**Endpoint:** `GET /systems/exit`
+**Endpoint:** `POST /systems/exit`
 
 **Response Code:** `200 OK` on success
 

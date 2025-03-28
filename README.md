@@ -16,7 +16,6 @@ Backend project for a Digital Library Book Management System to store book detai
           201 Created on success
           400 Bad Request if validation fails
 
-          
     2. View All Books (GET /books)
       	Endpoint: /books?pageNo=5&pageSize=2
       	Description: Retrieves all books from the catalog.

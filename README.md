@@ -14,7 +14,7 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 ## API Endpoints
 
 ### 1. Create a Book
-**Endpoint:** `POST /books`
+**Endpoint:** `POST /api/v1/books`
 
 **Description:** Adds a new book to the catalog.
 
@@ -34,7 +34,7 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 ---
 
 ### 2. View All Books
-**Endpoint:** `GET /books?pageNo=5&pageSize=2`
+**Endpoint:** `GET /api/v1/books?pageNo=5&pageSize=2`
 
 **Description:** Retrieves all books from the catalog.
 
@@ -55,7 +55,7 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 ---
 
 ### 3. Search Book by ID or Title
-**Endpoint:** `GET /books/search?bookId=1` or `GET /books/search?title=The Alchemist`
+**Endpoint:** `GET /api/v1/books/search?bookId=1` or `GET /api/v1/books/search?title=The Alchemist`
 
 **Description:** Searches for a book by Book ID or Title.
 
@@ -76,7 +76,7 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 ---
 
 ### 4. Update Book Details
-**Endpoint:** `PUT /books?bookId={bookId}`
+**Endpoint:** `PUT /api/v1/books?bookId={bookId}`
 
 **Description:** Updates book details (title, author, genre, availability).
 
@@ -96,7 +96,7 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 ---
 
 ### 5. Delete a Book
-**Endpoint:** `DELETE /books?bookId={bookId}`
+**Endpoint:** `DELETE /api/v1/books?bookId={bookId}`
 
 **Description:** Deletes a book from the catalog.
 
@@ -121,7 +121,7 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 - Custom error messages for `400`, `404`, and `500` responses.
 
 ### Pagination for Large Data
-- Use `GET /books?page=1&size=10` for better performance.
+- Use `GET /api/v1/books?page=1&size=10` for better performance.
 
 ## Deployment Process
 1. **Install MySQL.**

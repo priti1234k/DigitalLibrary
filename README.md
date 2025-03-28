@@ -2,6 +2,7 @@
 Backend project for a Digital Library Book Management System to store book details.
 
 #Api Details
+```
     1. Create a Book (POST /books)
         Endpoint: /books
         Description: Adds a new book to the catalog.
@@ -20,7 +21,7 @@ Backend project for a Digital Library Book Management System to store book detai
       	Endpoint: /books?pageNo=5&pageSize=2
       	Description: Retrieves all books from the catalog.
       	Response:json
-         ```{"booksDetailsList":[{"title":"The Alchemist","author":"Paulo","genre":"Fiction","availabilityStatus":"CheckedOut"},{"title":"The Alchemist","author":"Paulo Coelho","genre":"Fiction","availabilityStatus":"Available"}],"pageNo":5,"size":2,"totalNoOfPage":18}```
+         {"booksDetailsList":[{"title":"The Alchemist","author":"Paulo","genre":"Fiction","availabilityStatus":"CheckedOut"},{"title":"The Alchemist","author":"Paulo Coelho","genre":"Fiction","availabilityStatus":"Available"}],"pageNo":5,"size":2,"totalNoOfPage":18}
         Response Code: 200 OK
         
     3. Search Book by ID or Title (GET /books/search)
@@ -62,7 +63,7 @@ Backend project for a Digital Library Book Management System to store book detai
   6. Exit System
      Endpoint: /systems/exit
        Response Code:
-        200 OK on success
+        200 OK on success```
 
 
 #Additional Considerations

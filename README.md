@@ -140,6 +140,3 @@ The **Digital Library Management System (DLBMS)** is a web-based application tha
 
 At this URL, you will find an index page where you can create, view, search, update, and delete books from the catalog.
 
-## License
-This project is licensed under the MIT License.
-

@@ -1,7 +1,6 @@
 package com.digital.library.dlbms.constants;
 
-public interface URIPaths {
-
+public class URIPaths {
     public static final String API_V1 = "/api/v1";
     public static final String BOOKS = "/books";
     public static final String SEARCH = "/search";

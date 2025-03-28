@@ -56,15 +56,15 @@ public class BooksController {
 
     @PutMapping
     public ResponseEntity<?> updateBookDetails(@RequestParam("bookId") Long bookId, @RequestBody BooksDetails booksDetails){
-        booksService.updateBookDetails(bookId, booksDetails);
-        return ResponseEntity.ok().build();
+        Book book = booksService.updateBookDetails(bookId, booksDetails);
+        return ResponseEntity.ok(book);
     }
 
 
     @DeleteMapping
     public ResponseEntity<?> deleteBook(@RequestParam("bookId") Long bookid){
         booksService.deleteBook(bookid);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("BookId:"+bookid+" deleted successfully!!");
     }
 
 }

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management System</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid black; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+    <script>
+        let currentPage = 0;
+        let totalPages = 1;
+        const pageSize = 10;
+
+        async function createBook() {
+            const book = {
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                genre: document.getElementById('genre').value,
+                availabilityStatus: document.getElementById('availabilityStatus').value
+            };
+            const response = await fetch('/api/v1/books', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(book)
+            });
+            alert(await response.text());
+        }
+
+        async function viewAllBooks() {
+            if (currentPage >= totalPages) return alert("No more pages available");
+
+            const response = await fetch(`/api/v1/books?pageNo=${currentPage}&pageSize=${pageSize}`);
+            const data = await response.json();
+            totalPages = data.totalNoOfPage;
+            displayBooks(data.booksDetailsList, 'booksTableBody');
+        }
+
+        function displayBooks(books, tableId) {
+            const tableBody = document.getElementById(tableId);
+            tableBody.innerHTML = '';
+            books.forEach(book => {
+                const row = `<tr>
+                    <td>${book.title || ''}</td>
+                    <td>${book.author || ''}</td>
+                    <td>${book.genre || ''}</td>
+                    <td>${book.availabilityStatus || ''}</td>
+                </tr>`;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+        }
+
+        function nextPage() {
+            if (currentPage + 1 < totalPages) {
+                currentPage++;
+                viewAllBooks();
+            } else {
+                alert("You have reached the last page.");
+            }
+        }
+
+        async function searchBook() {
+    const searchType = document.getElementById('searchType').value;
+    const searchValue = document.getElementById('searchValue').value;
+    if (!searchValue) {
+        alert("Please enter a value to search");
+        return;
+    }
+
+    const query = searchType === 'bookId' ? `bookId=${searchValue}` : `title=${encodeURIComponent(searchValue)}`;
+    const response = await fetch(`/api/v1/books/search?${query}`);
+
+    if (response.ok) {
+        const data = await response.json();
+        console.log("Search Response:", data);
+
+        // If the response is an object, convert it into an array for displayBooks
+        const books = Array.isArray(data) ? data : [data];
+
+        if (books.length === 0) {
+            alert("No books found");
+            document.getElementById('searchTableBody').innerHTML = '';
+        } else {
+            displayBooks(books, 'searchTableBody');
+        }
+    } else {
+        alert("Book not found");
+        document.getElementById('searchTableBody').innerHTML = '';
+    }
+}
+
+
+        async function updateBook() {
+            const bookId = document.getElementById('updateId').value;
+            const book = {
+                title: document.getElementById('updateTitle').value,
+                author: document.getElementById('updateAuthor').value,
+                genre: document.getElementById('updateGenre').value,
+                availabilityStatus: document.getElementById('updateStatus').value
+            };
+            const response = await fetch(`/api/v1/books?bookId=${bookId}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(book)
+            });
+            alert(await response.text());
+        }
+
+        async function deleteBook() {
+            const bookId = document.getElementById('deleteId').value;
+            const response = await fetch(`/api/v1/books?bookId=${bookId}`, {method: 'DELETE'});
+            alert(await response.text());
+        }
+
+        async function exitSystem() {
+            const response = await fetch('/api/v1/system/exit', {method: 'POST'});
+            alert(await response.text());
+        }
+    </script>
+</head>
+<body>
+<h1>Book Management System</h1>
+
+<h2>Create Book</h2>
+<input id="title" placeholder="Title" required>
+<input id="author" placeholder="Author" required>
+<input id="genre" placeholder="Genre">
+<select id="availabilityStatus">
+    <option value="Available">Available</option>
+    <option value="Checked Out">Checked Out</option>
+</select>
+<button onclick="createBook()">Create</button>
+
+<h2>View All Books</h2>
+<button onclick="viewAllBooks()">View Books</button>
+<button onclick="nextPage()">Next Page</button>
+
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Availability Status</th>
+    </tr>
+    </thead>
+    <tbody id="booksTableBody"></tbody>
+</table>
+
+<h2>Search Book</h2>
+<select id="searchType">
+    <option value="bookId">Book ID</option>
+    <option value="title">Title</option>
+</select>
+<input id="searchValue" placeholder="Enter value">
+<button onclick="searchBook()">Search</button>
+
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Availability Status</th>
+    </tr>
+    </thead>
+    <tbody id="searchTableBody"></tbody>
+</table>
+
+<h2>Update Book</h2>
+<input id="updateId" placeholder="Book ID" required>
+<input id="updateTitle" placeholder="Title">
+<input id="updateAuthor" placeholder="Author">
+<input id="updateGenre" placeholder="Genre">
+<select id="updateStatus">
+    <option value="Available">Available</option>
+    <option value="Checked Out">Checked Out</option>
+</select>
+<button onclick="updateBook()">Update</button>
+
+<h2>Delete Book</h2>
+<input id="deleteId" placeholder="Book ID" required>
+<button onclick="deleteBook()">Delete</button>
+
+<h2>Exit System</h2>
+<button onclick="exitSystem()">Exit</button>
+</body>
+</html>

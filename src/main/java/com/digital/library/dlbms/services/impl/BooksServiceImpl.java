@@ -1,5 +1,6 @@
 package com.digital.library.dlbms.services.impl;
 
+import ch.qos.logback.core.util.StringUtil;
 import com.digital.library.dlbms.exception.BookDeleteFailedException;
 import com.digital.library.dlbms.exception.BookNotFoundException;
 import com.digital.library.dlbms.exception.BooksCreationFailedException;
@@ -34,9 +35,9 @@ public class BooksServiceImpl implements BooksService {
     public Book createBook(BooksDetails booksDetails) {
 
         if(Objects.nonNull(booksDetails) &&
-                Objects.nonNull(booksDetails.getTitle()) &&
-                Objects.nonNull(booksDetails.getAuthor()) &&
-                Objects.nonNull(booksDetails.getGenre())){
+                !StringUtil.isNullOrEmpty(booksDetails.getTitle()) &&
+                !StringUtil.isNullOrEmpty(booksDetails.getAuthor()) &&
+                !StringUtil.isNullOrEmpty(booksDetails.getGenre())){
 
             // Set default availability status if null
             if (booksDetails.getAvailabilityStatus() == null) {
@@ -118,25 +119,25 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
-    public void updateBookDetails(Long bookId, BooksDetails booksDetails) {
+    public Book updateBookDetails(Long bookId, BooksDetails booksDetails) {
         if(Objects.nonNull(bookId)
                 && Objects.nonNull(booksDetails)
-                && (Objects.nonNull(booksDetails.getTitle())
-                    || Objects.nonNull(booksDetails.getAuthor())
-                    || Objects.nonNull(booksDetails.getGenre())
+                && (!StringUtil.isNullOrEmpty(booksDetails.getTitle())
+                    || !StringUtil.isNullOrEmpty(booksDetails.getAuthor())
+                    || !StringUtil.isNullOrEmpty(booksDetails.getGenre())
                     || Objects.nonNull(booksDetails.getAvailabilityStatus()))){
             try {
                 // Retrieve the Book using Book_Id
                 Optional<Book> bookOptional = booksRepository.findById(bookId);
                 if (bookOptional.isPresent()) {
                     Book book = bookOptional.get();
-                    if(Objects.nonNull(booksDetails.getTitle())){
+                    if(!StringUtil.isNullOrEmpty(booksDetails.getTitle())){
                         book.setTitle(booksDetails.getTitle());
                     }
-                    if(Objects.nonNull(booksDetails.getAuthor())){
+                    if(!StringUtil.isNullOrEmpty(booksDetails.getAuthor())){
                         book.setAuthor(booksDetails.getAuthor());
                     }
-                    if(Objects.nonNull(booksDetails.getGenre())){
+                    if(!StringUtil.isNullOrEmpty(booksDetails.getGenre())){
                         book.setGenre(booksDetails.getGenre());
                     }
                     if(Objects.nonNull(booksDetails.getAvailabilityStatus())){
@@ -144,7 +145,7 @@ public class BooksServiceImpl implements BooksService {
                     }
 
                     // Save the updated Books object in the DB
-                    booksRepository.save(book);
+                    return booksRepository.save(book);
                 } else {
                     // Throw exception
                     throw new BookNotFoundException("Book not present in db");

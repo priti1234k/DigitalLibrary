@@ -16,7 +16,7 @@ public interface BooksService {
 
     List<BooksDetails> listOfBooksBasedOnTitle(String title);
 
-    void updateBookDetails(Long bookId, BooksDetails booksDetails);
+    Book updateBookDetails(Long bookId, BooksDetails booksDetails);
 
     @Transactional
     void deleteBook(Long bookid);

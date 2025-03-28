@@ -8,6 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,10 +18,8 @@ import static com.digital.library.dlbms.constants.URIPaths.*;
 @RequestMapping(API_V1 + SYSTEM)
 public class SystemController {
 
-
-
-    @GetMapping(EXIT)
-    public ResponseEntity<Void> exitSystem(){
+    @PostMapping(EXIT)
+    public ResponseEntity<?> exitSystem(){
         Thread exitTriggerThread = new Thread(
                 () -> {
                     ConfigurableApplicationContext ctx = new SpringApplicationBuilder(DlbmsApplication.class)
@@ -35,6 +34,6 @@ public class SystemController {
                 }
         );
         exitTriggerThread.start();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("System triggered for exitting!!");
     }
 }
